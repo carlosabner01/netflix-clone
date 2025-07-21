@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netflix Clone</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" type="image/svg+xml" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.85);
+      z-index: 10;
+    }
+    .logo {
+      height: 40px;
+      filter: brightness(1.1);
+    }
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #e50914;
+    }
+    .banner {
+      position: relative;
+      height: 65vh;
+      background-image: url('https://image.tmdb.org/t/p/original/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg');
+      background-size: cover;
+      background-position: center center;
+      border-radius: 0 0 30px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 60px 60px 60px;
+      box-shadow: inset 0 -100px 120px -40px rgba(0,0,0,0.7);
+      margin-bottom: 20px;
+      color: white;
+      text-shadow: 1.5px 1.5px 5px #000;
+      overflow: hidden;
+    }
+    .banner h2 {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+    .banner button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(229,9,20,0.7);
+      transition: background-color 0.3s;
+      width: max-content;
+    }
+    .banner button:hover {
+      background-color: #b00610;
+      box-shadow: 0 4px 12px rgba(176,6,16,0.9);
+    }
+    .hero {
+      padding-left: 60px;
+      padding-top: 30px;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+    .hero button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 10px;
+      box-shadow: 0 2px 8px rgba(229,9,20,0.7);
+      transition: background-color 0.3s;
+    }
+    .hero button:hover {
+      background-color: #b00610;
+      box-shadow: 0 4px 12px rgba(176,6,16,0.9);
+    }
+    .carousel {
+      margin: 0 0 60px 40px;
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      padding-bottom: 10px;
+      scroll-behavior: smooth;
+      padding-left: 10px;
+      padding-right: 20px;
+    }
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .movie {
+      flex: 0 0 auto;
+      width: 180px;
+      height: 270px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-right: 10px;
+    }
+    .movie:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(229,9,20,0.9);
+      z-index: 5;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal iframe {
+      width: 80vw;
+      height: 45vw;
+      max-width: 960px;
+      max-height: 540px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(229,9,20,0.8);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix logo" />
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Séries</a>
+      <a href="#">Filmes</a>
+      <a href="#">Minha Lista</a>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <h2>Os Vingadores</h2>
+    <button onclick="openTrailer()">▶ Assistir Trailer</button>
+  </section>
+
+  <section class="hero">
+    <h1>Assista onde quiser</h1>
+    <p>Filmes, séries e muito mais. Sem limites.</p>
+    <button onclick="openTrailer()">Ver Trailer</button>
+    <button>Entrar</button>
+  </section>
+
+  <section class="carousel" aria-label="Filmes em destaque">
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/lmZFxXgJE3vgrciwuDib0N8CfQo.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/6Wdl9N6dL0Hi0T1qJLWSz6gMLbd.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg')"></div>
+    <div class="movie" style="background-image: url('https://image.tmdb.org/t/p/w500/xJWPZIYOEFIjZpBL7SVBGnzRYXp.jpg')"></div>
+  </section>
+
+  <div class="modal" id="trailerModal" onclick="closeTrailer()">
+    <iframe id="trailerVideo" src="" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function openTrailer() {
+      const modal = document.getElementById('trailerModal');
+      const iframe = document.getElementById('trailerVideo');
+      iframe.src = 'https://www.youtube.com/embed/TcMBFSGVi1c?autoplay=1';
+      modal.style.display = 'flex';
+    }
+    function closeTrailer() {
+      const modal = document.getElementById('trailerModal');
+      const iframe = document.getElementById('trailerVideo');
+      iframe.src = '';
+      modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
